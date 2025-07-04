@@ -3,48 +3,64 @@
 
     function obtenerDatosDependientesEconomicos($IdDeclaracion)
     {
+        $sec_01_07 = new sec_01_07();
+        $Dependiente = $sec_01_07->DependienteEconomico($IdDeclaracion);
+        $Ninguno = true;
 
-        
+
+        if (is_array($Dependiente) && count($Dependiente) > 0) 
+        {
+            $Ninguno = false;
+        }
+
+
         $estructura = 
         [
-            "ninguno" => empty($dependientes),
+            "ninguno" => $Ninguno,
             "dependienteEconomico" => [],
             "aclaracionesObservaciones" => ""
         ];
 
-        foreach ($dependientes as $dep) 
+
+        foreach ($Dependiente as $Dependiente_Res) 
         {
+            $DomicilioMexico = $sec_01_07->DomicilioMexico($Dependiente_Res["id"]);
+            $DomicilioExtranjero = $sec_01_07->DomicilioExtranjero($Dependiente_Res["id"]);
+            $TrabajoPublico = $sec_01_07->TrabajoAmbitoPublico($Dependiente_Res["id"]);
+            $TrabajoPrivado = $sec_01_07->TrabajoAmbitoPrivadoOtro($Dependiente_Res["id"]);
+
+
             $estructura["dependienteEconomico"][] = 
             [
                 "tipoOperacion" => "AGREGAR",
-                "nombre" => $dep["nombre"] ?? "",
-                "primerApellido" => $dep["apellido1"] ?? "",
-                "segundoApellido" => $dep["apellido2"] ?? "",
-                "fechaNacimiento" => $dep["fecha_nacimiento"] ?? "",
-                "rfc" => $dep["rfc"] ?? "",
+                "nombre" => $Dependiente_Res["nombre"] ?? "",
+                "primerApellido" => $Dependiente_Res["apellido1"] ?? "",
+                "segundoApellido" => $Dependiente_Res["apellido2"] ?? "",
+                "fechaNacimiento" => $Dependiente_Res["fecha_nacimiento"] ?? "",
+                "rfc" => $Dependiente_Res["rfc"] ?? "",
                 "parentescoRelacion" => [
-                    "clave" => $dep["claveParentesco"] ?? "",
-                    "valor" => $dep["valorParentesco"] ?? ""
+                    "clave" => $Dependiente_Res["Clave_Relacion_familiar"] ?? "",
+                    "valor" => $Dependiente_Res["Relacion_familiar"] ?? ""
                 ],
-                "extranjero" => ($dep["extranjero"] ?? 'false') === 'true',
-                "curp" => $dep["curp"] ?? "",
-                "habitaDomicilioDeclarante" => ($dep["habita"] ?? 'true') === 'true',
-                "lugarDondeReside" => $dep["residencia"] ?? "MÉXICO",
+                "extranjero" => $Dependiente_Res["ciudadanoExtranjero"],
+                "curp" => $Dependiente_Res["curp"] ?? "",
+                "habitaDomicilioDeclarante" => $Dependiente_Res["habitaDomicilioDeclarante"],
+                "lugarDondeReside" => $Dependiente_Res["LugarDondeReside"],
 
                 "domicilioMexico" => [
-                    "calle" => $dep["calle"] ?? "",
-                    "numeroExterior" => $dep["num_ext"] ?? "",
-                    "numeroInterior" => $dep["num_int"] ?? "",
-                    "coloniaLocalidad" => $dep["colonia"] ?? "",
+                    "calle" => $DomicilioMexicop["calle"] ?? "",
+                    "numeroExterior" => $DomicilioMexico["num_ext"] ?? "",
+                    "numeroInterior" => $DomicilioMexico["num_int"] ?? "",
+                    "coloniaLocalidad" => $DomicilioMexico["colonia"] ?? "",
                     "municipioAlcaldia" => [
-                        "clave" => $dep["claveMunicipio"] ?? "",
-                        "valor" => $dep["valorMunicipio"] ?? ""
+                        "clave" => $DomicilioMexico["claveMunicipio"] ?? "",
+                        "valor" => $DomicilioMexico["valorMunicipio"] ?? ""
                     ],
                     "entidadFederativa" => [
-                        "clave" => $dep["claveEstado"] ?? "07",
-                        "valor" => $dep["valorEstado"] ?? "CHIAPAS"
+                        "clave" => $DomicilioMexico["claveEstado"] ?? "07",
+                        "valor" => $DomicilioMexico["valorEstado"] ?? "CHIAPAS"
                     ],
-                    "codigoPostal" => $dep["cp"] ?? "00000"
+                    "codigoPostal" => $DomicilioMexico["cp"] ?? "00000"
                 ],
 
                 "domicilioExtranjero" => [

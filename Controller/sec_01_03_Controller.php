@@ -5,15 +5,15 @@
     function obtenerDatosCurriculares($IdDeclaracion)
     {
         $sec_01_03 = new sec_01_03();
-        $sec_01_03_Curricular = $sec_01_03->datosCurriculares($IdDeclaracion);
+        $Curricular = $sec_01_03->datosCurriculares($IdDeclaracion);
 
         $ninguno = true;
         $escolaridad = [];
         $observaciones = "";
 
-        if (is_array($sec_01_03_Curricular) && count($sec_01_03_Curricular) > 0) 
+        if (is_array($Curricular) && count($Curricular) > 0) 
         {
-            foreach ($sec_01_03_Curricular as $estudio) {
+            foreach ($Curricular as $estudio) {
                 $escolaridad[] = [
                     "tipoOperacion" => "AGREGAR",
                     "nivel" => [

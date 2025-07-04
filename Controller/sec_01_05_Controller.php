@@ -5,19 +5,19 @@
     function obtenerExperienciaLaboral($IdDeclaracion)
     {
         $sec_01_05 = new sec_01_05();
-        $sec_01_05_ExperianciaLaboral = $sec_01_05->ExperianciaLaboral($IdDeclaracion);
-        $sec_01_05_Ninguno = true;
+        $ExperianciaLaboral = $sec_01_05->ExperianciaLaboral($IdDeclaracion);
+        $Ninguno = true;
         $Observaciones = "";
 
 
-        if (is_array($sec_01_05_ExperianciaLaboral) && count($sec_01_05_ExperianciaLaboral) > 0) 
+        if (is_array($ExperianciaLaboral) && count($ExperianciaLaboral) > 0) 
         {
-            $sec_01_05_Ninguno = false;
+            $Ninguno = false;
         }
 
         $experiencia = [];
 
-        foreach ($sec_01_05_ExperianciaLaboral as $row) 
+        foreach ($ExperianciaLaboral as $row) 
         {
             $experiencia[] = 
             [
@@ -41,7 +41,7 @@
         }
 
         return [
-            "ninguno" => $sec_01_05_Ninguno,
+            "ninguno" => $Ninguno,
             "experiencia" => $experiencia,
             "aclaracionesObservaciones" => $Observaciones
         ];

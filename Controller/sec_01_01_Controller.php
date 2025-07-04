@@ -5,38 +5,38 @@
     function obtenerDatosGenerales($IdDeclaracion)
     {
         $sec_01_01 = new sec_01_01();
-        $sec_01_01_general = $sec_01_01->DatosGenerales($IdDeclaracion);
-        $sec_01_01_Regimen_matrimonial = $sec_01_01->RegimenMatrimonial($IdDeclaracion);
+        $general = $sec_01_01->DatosGenerales($IdDeclaracion);
+        $Regimen_matrimonial = $sec_01_01->RegimenMatrimonial($IdDeclaracion);
 
 
         return [
-            "nombre" => $sec_01_01_general["nombre"],
-            "primerApellido" => $sec_01_01_general["apellido1"],
-            "segundoApellido" => $sec_01_01_general["apellido2"],
-            "curp" => $sec_01_01_general["curp"],
+            "nombre" => $general["nombre"],
+            "primerApellido" => $general["apellido1"],
+            "segundoApellido" => $general["apellido2"],
+            "curp" => $general["curp"],
             "rfc" => [
-                "rfc" => $sec_01_01_general["rfc"],
-                "homoClave" => $sec_01_01_general["homoclave"]
+                "rfc" => $general["rfc"],
+                "homoClave" => $general["homoclave"]
             ],
             "correoElectronico" => [
-                "institucional" => $sec_01_01_general["correo_institucional"],
-                "personal" => $sec_01_01_general["correo_personal"]
+                "institucional" => $general["correo_institucional"],
+                "personal" => $general["correo_personal"]
             ],
             "telefono" => [
                 "casa" => "", 
-                "celularPersonal" => $sec_01_01_general["telefono_celular"]
+                "celularPersonal" => $general["telefono_celular"]
             ],
             "situacionPersonalEstadoCivil" => [
-                "clave" => $sec_01_01_general["Estado_civil_clave"],
-                "valor" => $sec_01_01_general["Estado_civil"]
+                "clave" => $general["Estado_civil_clave"],
+                "valor" => $general["Estado_civil"]
             ],
             "regimenMatrimonial" => [
-                "clave" => $sec_01_01_Regimen_matrimonial["Regimen_matrimonial_clave"] ?? "",
-                "valor" => $sec_01_01_Regimen_matrimonial["RegimenMatrominial"] ?? ""
+                "clave" => $Regimen_matrimonial["Regimen_matrimonial_clave"] ?? "",
+                "valor" => $Regimen_matrimonial["RegimenMatrominial"] ?? ""
             ],
-            "paisNacimiento" => $sec_01_01_general["Pais_Nacimiento"],
-            "nacionalidad" => $sec_01_01_general["Pais_Nacionalidad"],
-            "aclaracionesObservaciones" => $sec_01_01_general["observaciones"] ?? ""
+            "paisNacimiento" => $general["Pais_Nacimiento"],
+            "nacionalidad" => $general["Pais_Nacionalidad"],
+            "aclaracionesObservaciones" => $general["observaciones"] ?? ""
         ];
     }
 
